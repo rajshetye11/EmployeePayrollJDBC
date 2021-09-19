@@ -1,31 +1,48 @@
 package com.bridgelabz.employeepayroll;
 
 import java.sql.Connection;
-import java.sql.DatabaseMetaData;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
-
-
+import java.sql.*;
 
 public class EmployeePayroll {
-	private String url = "jdbc:mysql://localhost:3306/payroll_service?useSSL=false";
-	private String username = "root";
-    private String password = "root";
-    Connection con;
-
-    public Connection establishDatabaseConnection() throws SQLException {	       
-    	try {
-	          Class.forName("com.mysql.jdbc.Driver");
-	          con = DriverManager.getConnection(url, username, password);
-	          System.out.println("Connection Successful "+con);
-    	}
-	    catch(Exception e) {
-	    	e.printStackTrace();
-	    }
-	    return con;
-    }
-    
+	Connection con;
+	
+	public void getDatafromDatabase() throws SQLException {
+		try {
+			JDBCConn jdbccon = new JDBCConn();
+			con = jdbccon.establishDbConnection();
+			String query = "select * from employee_payroll";
+			Statement stmt =  con.createStatement();
+			ResultSet rs = stmt.executeQuery(query);
+			while(rs.next()) {
+				 System.out.println(
+		                    rs.getString(1)+" "+
+		                            rs.getString(2)+ " "+
+		                            rs.getString(3)+" "+
+		                            rs.getString(4)
+		            );
+			}
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void updateEmployee(String name, double salary) throws SQLException {
+		try{
+			JDBCConn jdbccon = new JDBCConn();
+			con = jdbccon.establishDbConnection();
+			
+			String query = "update employee_payroll set salary=? where name=?";
+			PreparedStatement ps = con.prepareStatement(query);
+			ps.setDouble(1, salary);
+			ps.setString(2, name);
+			ps.executeUpdate();
+			System.out.println("Done");			
+		}
+		catch(SQLException e) {
+			e.printStackTrace();
+		}
+	
+}
 }
