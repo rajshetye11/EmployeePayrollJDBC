@@ -24,4 +24,11 @@ public class EmployeePayrollTest {
     	dbConnection.close();
     }
 	
+	 @Test
+	    public void retriveDataFromDate() throws SQLException {
+	    	Connection dbConnection= new JDBCConn().establishDbConnection();
+	    	ep.getDatabyDate();
+	    	dbConnection.close();
+	    }
+	
 }
