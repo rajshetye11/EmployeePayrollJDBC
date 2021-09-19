@@ -30,5 +30,15 @@ public class EmployeePayrollTest {
 	    	ep.getDatabyDate();
 	    	dbConnection.close();
 	    }
+	 @Test
+	    public void retrieveAndDisplayFunctions() throws SQLException {
+	    	Connection dbConnection= new JDBCConn().establishDbConnection();
+	    	ep.databaseFunctions("Sum");
+	    	ep.databaseFunctions("Avg");
+	    	ep.databaseFunctions("Min");
+	    	ep.databaseFunctions("Max");
+	    	ep.databaseFunctions("Count");
+	    	dbConnection.close();
+	    }
 	
 }
